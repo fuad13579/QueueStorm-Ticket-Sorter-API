@@ -3,6 +3,7 @@ from typing import Literal, Optional
 from pydantic import BaseModel, Field
 
 
+# Literal type aliases keep the API contract strict so invalid values are rejected before classification runs.
 CaseType = Literal[
     "wrong_transfer",
     "payment_failed",
@@ -24,6 +25,8 @@ Channel = Literal["app", "sms", "call_center", "merchant_portal"]
 Locale = Literal["bn", "en", "mixed"]
 
 
+# Incoming request payload for /sort-ticket.
+# Example: ticket_id and message are required, while channel and locale are optional hints.
 class TicketRequest(BaseModel):
     ticket_id: str = Field(..., min_length=1)
     channel: Optional[Channel] = None
@@ -31,6 +34,7 @@ class TicketRequest(BaseModel):
     message: str = Field(..., min_length=1)
 
 
+# Outgoing response shape returned to the caller and used by the grader.
 class TicketResponse(BaseModel):
     ticket_id: str
     case_type: CaseType

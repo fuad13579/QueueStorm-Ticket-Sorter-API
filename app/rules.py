@@ -1,3 +1,5 @@
+# Keyword groups drive the rule engine: each phrase can trigger a category without any model call.
+# Example: "OTP" or "asked for pin" should immediately flag phishing or social engineering.
 CASE_KEYWORDS = {
     "wrong_transfer": [
         "wrong number",
@@ -36,6 +38,7 @@ CASE_KEYWORDS = {
     ],
 }
 
+# Default routing maps each detected case type to the team that should handle it first.
 DEFAULT_DEPARTMENT = {
     "wrong_transfer": "dispute_resolution",
     "payment_failed": "payments_ops",

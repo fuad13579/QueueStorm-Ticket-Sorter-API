@@ -130,24 +130,24 @@ The `agent_summary` must never ask the customer to share:
 
 ## Current Status
 
-Repository scaffold is in place.
+Core implementation is in place and the public sample cases are covered by tests.
 
-Files still need implementation:
-- `app/main.py`
-- `app/schemas.py`
-- `app/rules.py`
-- `app/classifier.py`
-- `tests/test_api.py`
+Implemented:
+- `GET /health`
+- `POST /sort-ticket`
+- request and response schemas
+- rule-based ticket classification
+- phishing and critical human-review flagging
+- sample API tests
+
+Validation:
+- `pytest -q` currently passes locally
 
 ## Recommended Next Steps
 
-1. Implement request and response schemas in `app/schemas.py`.
-2. Add keyword rules in `app/rules.py`.
-3. Build classification logic in `app/classifier.py`.
-4. Expose `/health` and `/sort-ticket` in `app/main.py`.
-5. Add tests in `tests/test_api.py`.
-6. Run tests locally.
-7. Deploy to Render or Railway.
+1. Deploy the API to a public HTTPS host such as Render, Railway, Fly, or EC2.
+2. Add the live base URL to the submission form.
+3. Optionally add more edge-case tests before final submission.
 
 ## Deployment Notes
 

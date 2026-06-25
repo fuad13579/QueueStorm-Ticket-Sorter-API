@@ -3,10 +3,13 @@ import re
 from app.rules import CASE_KEYWORDS, DEFAULT_DEPARTMENT
 
 
+# Normalize text so matching is case-insensitive and ignores extra whitespace.
 def normalize_text(text: str) -> str:
     return " ".join(text.lower().strip().split())
 
 
+# Scan the message in priority order to pick the most specific case type.
+# Example: "asking my OTP" should map to phishing before any broader complaint.
 def detect_case_type(message: str) -> tuple[str, float]:
     normalized = normalize_text(message)
 
@@ -29,6 +32,7 @@ def detect_case_type(message: str) -> tuple[str, float]:
     return "other", 0.50
 
 
+# Assign severity mostly from the case type, with refund requests getting a bump when urgency words appear.
 def detect_severity(case_type: str, message: str) -> str:
     normalized = normalize_text(message)
 
@@ -46,6 +50,7 @@ def detect_severity(case_type: str, message: str) -> str:
     return "low"
 
 
+# Route refunds to dispute handling when the message sounds like a conflict, chargeback, or billing dispute.
 def detect_department(case_type: str, severity: str, message: str) -> str:
     if case_type == "refund_request":
         normalized = normalize_text(message)
@@ -55,6 +60,8 @@ def detect_department(case_type: str, severity: str, message: str) -> str:
     return DEFAULT_DEPARTMENT[case_type]
 
 
+# Build a short agent-facing summary and include amounts when the message mentions one.
+# Example: "I sent 3000 to wrong number" becomes a recovery summary mentioning 3000.
 def build_summary(case_type: str, message: str) -> str:
     amount_match = re.search(r"\b(\d+(?:[.,]\d+)?)\b", message)
 
@@ -75,6 +82,7 @@ def build_summary(case_type: str, message: str) -> str:
     return "Customer reports an issue that does not match the main predefined categories."
 
 
+# Combine classification, routing, and review flags into the API payload returned by /sort-ticket.
 def classify_ticket(ticket_id: str, message: str) -> dict:
     case_type, confidence = detect_case_type(message)
     severity = detect_severity(case_type, message)
