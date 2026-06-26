@@ -151,3 +151,57 @@ Submission requires:
 - public HTTPS base URL
 - working `/health` endpoint
 - README with enough setup information to run locally
+
+## Verified Live Responses
+
+A live deployment is running at `https://queuestorm-ticket-sorter-api.onrender.com`.
+
+The smoke harness in `scripts/smoke_test_live.py` replays the public sample
+messages plus the Bengali/Banglish edge cases against the deployment and
+prints PASS/FAIL per case with latency. Each row below is an actual response
+captured from the live URL.
+
+<!-- markdownlint-disable MD060 -->
+
+### English (public samples)
+
+| ID    | Message excerpt                                            | case_type                        | severity  | department           | human_review |
+| ----- | ---------------------------------------------------------- | -------------------------------- | --------- | -------------------- | ------------ |
+| T-001 | `I sent 3000 to a wrong number by mistake please help`     | `wrong_transfer`                 | `high`    | `dispute_resolution` | false        |
+| T-002 | `Payment failed but my balance was deducted, please check` | `payment_failed`                 | `high`    | `payments_ops`       | false        |
+| T-003 | `Please refund my last transaction, I changed my mind`     | `refund_request`                 | `low`     | `customer_support`   | false        |
+| T-004 | `Someone called and asked for my OTP, is this bKash?`      | `phishing_or_social_engineering` | `critical` | `fraud_risk`        | true         |
+| T-005 | `The app crashes every time I open the transfer screen`    | `other`                          | `low`     | `customer_support`   | false        |
+
+### Bengali (pure `bn` script)
+
+| ID    | Message excerpt                                  | case_type                        | severity  | department           | human_review |
+| ----- | ------------------------------------------------ | -------------------------------- | --------- | -------------------- | ------------ |
+| T-203 | `পেমেন্ট ব্যর্থ হয়েছে কিন্তু টাকা কেটে নিয়েছে`  | `payment_failed`                 | `high`    | `payments_ops`       | false        |
+| T-205 | `আমি রিফান্ড চাই, টাকা ফেরত দিন`                  | `refund_request`                 | `low`     | `customer_support`   | false        |
+| T-207 | `একজন কল করে আমার পিন দিয়ে দিতে বলেছে`            | `phishing_or_social_engineering` | `critical` | `fraud_risk`        | true         |
+
+### Banglish (mixed Latin + Bengali)
+
+| ID    | Message excerpt                                     | case_type                        | severity  | department           | human_review |
+| ----- | --------------------------------------------------- | -------------------------------- | --------- | -------------------- | ------------ |
+| T-202 | `Ami bhul number e taka pathiye diyechi`            | `wrong_transfer`                 | `high`    | `dispute_resolution` | false        |
+| T-204 | `Payment failed hoyeche kintu balance kete niyeche` | `payment_failed`                 | `high`    | `payments_ops`       | false        |
+| T-206 | `Refund kore din, ami taka ferot chai`              | `refund_request`                 | `low`     | `customer_support`   | false        |
+| T-208 | `Ekjon OTP niye niye call kore, scam kore`          | `phishing_or_social_engineering` | `critical` | `fraud_risk`        | true         |
+
+<!-- markdownlint-enable MD060 -->
+
+### Reproducing the table
+
+```powershell
+# from the repo root
+python scripts/smoke_test_live.py
+```
+
+Override the target URL with `QS_BASE` to verify a preview deploy:
+
+```powershell
+$env:QS_BASE = "https://your-preview.example.com"
+python scripts/smoke_test_live.py
+```
