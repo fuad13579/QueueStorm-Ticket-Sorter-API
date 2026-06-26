@@ -1,5 +1,6 @@
 # Keyword groups drive the rule engine: each phrase can trigger a category without any model call.
 # Example: "OTP" or "asked for pin" should immediately flag phishing or social engineering.
+# Bengali and Banglish variants are included so messages in bn/mixed locales also classify.
 CASE_KEYWORDS = {
     "wrong_transfer": [
         "wrong number",
@@ -8,6 +9,18 @@ CASE_KEYWORDS = {
         "mistakenly sent",
         "wrong transfer",
         "sent money to the wrong",
+        # Bengali / Banglish
+        "wrong number e",
+        "wrong number এ",
+        "bhul number e",
+        "bhul number এ",
+        "bhul e",
+        "ভুল নম্বর",
+        "ভুল নাম্বার",
+        "ভুল নম্বরে",
+        "ভুল একাউন্টে",
+        "ভুল করে পাঠিয়ে",
+        "ভুল একাউন্ট",
     ],
     "payment_failed": [
         "payment failed",
@@ -17,6 +30,20 @@ CASE_KEYWORDS = {
         "didn't go through",
         "did not go through",
         "failed transaction",
+        # Bengali / Banglish
+        "payment failed hoyeche",
+        "payment failed hoyece",
+        "transaction failed hoyeche",
+        "transaction failed hoyece",
+        "balance deducted hoyeche",
+        "balance deducted hoyece",
+        "balance keteche",
+        "balance kete niyeche",
+        "টাকা কেটে নিয়েছে",
+        "টাকা কেটে নিয়েছে",
+        "পেমেন্ট ফেইল",
+        "পেমেন্ট ব্যর্থ",
+        "লেনদেন ব্যর্থ",
     ],
     "refund_request": [
         "refund",
@@ -24,6 +51,18 @@ CASE_KEYWORDS = {
         "money back",
         "changed my mind",
         "cancel transaction",
+        # Bengali / Banglish
+        "taka ferot",
+        "taka ferot din",
+        "taka pherbaben",
+        "refund korun",
+        "refund kore din",
+        "ferot chai",
+        "ferot den",
+        "টাকা ফেরত",
+        "রিফান্ড",
+        "টাকা ফেরত দিন",
+        "বাতিল করুন",
     ],
     "phishing_or_social_engineering": [
         "otp",
@@ -35,6 +74,21 @@ CASE_KEYWORDS = {
         "asked for my otp",
         "asked for otp",
         "asked for pin",
+        # Bengali / Banglish
+        "otp niye niye",
+        "pin niye niye",
+        "pin jante chaisechhe",
+        "otp jante chaisechhe",
+        "otp diye din",
+        "pin diye din",
+        "scam call",
+        "scam kore",
+        "প্রতারণা",
+        "পিন",
+        "ওটিপি",
+        "পাসওয়ার্ড",
+        "পিন দিয়ে দিন",
+        "ওটিপি দিয়ে দিন",
     ],
 }
 
