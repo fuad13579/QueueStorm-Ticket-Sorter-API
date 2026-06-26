@@ -1,0 +1,2 @@
+message: আমি ভুল নম্বরে ১৫০০ টাকা পাঠিয়ে দিয়েছি
+result: {'ticket_id': 'T-201', 'case_type': 'wrong_transfer', 'severity': 'high', 'department': 'dispute_resolution', 'agent_summary': 'Customer reports sending ১৫০০ to a wrong recipient and requests recovery.', 'human_review_required': False, 'confidence': 0.9}
