@@ -1,6 +1,6 @@
 ﻿# QueueStorm Ticket Sorter API
 
-A small FastAPI service for the QueueStorm Warmup mock preliminary task of Codex Community Hackathon in SUST CSE Carnival 2026.
+A small FastAPI service for the QueueStorm Warmup mock preliminary task of Codex Community Hackathon at the SUST CSE Carnival 2026.
 
 The API accepts one customer support ticket and returns a structured classification with:
 - case type
@@ -143,11 +143,6 @@ Implemented:
 Validation:
 - `pytest -q` currently passes locally
 
-## Recommended Next Steps
-
-1. Deploy the API to a public HTTPS host such as Render, Railway, Fly, or EC2.
-2. Add the live base URL to the submission form.
-3. Optionally add more edge-case tests before final submission.
 
 ## Deployment Notes
 
